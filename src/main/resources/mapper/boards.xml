@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="site.metacoding.red.domain.boards.BoardsDao">
+
+	<select id="findAll"
+		resultType="site.metacoding.red.web.dto.boards.response.MainDto">
+		SELECT *
+		FROM boards b INNER JOIN users u ON b.usersId = u.id
+		<if test="keyword != null">
+			WHERE title like CONCAT('%',#{keyword},'%')
+		</if>
+		ORDER BY b.id DESC
+		OFFSET #{startNum} ROWS FETCH NEXT 4 ROWS ONLY
+	</select>
+
+	<select id="paging"
+		resultType="site.metacoding.red.web.dto.boards.response.PagingDto">
+		SELECT totalCount, totalPage, currentPage,
+		CASE WHEN currentPage = 0
+		THEN 1 ELSE 0 END isfirst,
+		CASE WHEN currentPage = totalPage-1 then 1
+		ELSE 0 END islast
+		FROM
+		(
+		SELECT count(*) totalCount, ceil(count(*)/4)
+		totalPage, #{page} currentPage, 0
+		isfirst, 0 islast
+		FROM boards
+		<if test="keyword != null">
+			WHERE title like CONCAT('%',#{keyword},'%')
+		</if>
+		) boards
+
+	</select>
+
+	<insert id="insert">
+		INSERT INTO boards(title, content, usersId,
+		createdAt)
+		VALUES(#{title}, #{content}, #{usersId},
+		now())
+	</insert>
+
+	<delete id="deleteById">
+		DELETE FROM boards WHERE id = #{id}
+	</delete>
+
+	<update id="update">
+		UPDATE boards
+		SET title = #{title}, content =
+		#{content}
+		WHERE id = #{id}
+	</update>
+
+	<select id="findById"
+		resultType="site.metacoding.red.domain.boards.Boards">
+		SELECT * FROM boards
+		WHERE id=#{id}
+	</select>
+
+	<update id="updateUsersId">
+		UPDATE boards
+		SET usersId = null
+		WHERE usersId =
+		#{usersId}
+	</update>
+
+
+
+</mapper>

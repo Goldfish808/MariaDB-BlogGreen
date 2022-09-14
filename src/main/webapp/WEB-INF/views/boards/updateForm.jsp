@@ -3,16 +3,18 @@
 <%@ include file="../layout/header.jsp"%>
 
 <div class="container">
-	<form>
+	<form action="/boards/${boardsContent.id}/update" method="post">
 		<div class="mb-3 mt-3">
-			<input type="text" class="form-control" placeholder="Enter title" value="제목입니다">
+			<input type="text" class="form-control"
+				placeholder="Enter title" name="title" value="${boardsContent.title}" required="required" maxlength="50">
 		</div>
 		<div class="mb-3">
-			<textarea class="form-control" rows="8" >내용입니다</textarea>
+			<textarea class="form-control" rows="8" name="content" required="required">${boardsContent.content}</textarea>
 		</div>
-		<button type="submit" class="btn btn-primary">수정완료</button>
+		<button type="submit" class="btn btn-primary">글 수정 완료</button>
 	</form>
 </div>
+
 
 <%@ include file="../layout/footer.jsp"%>
 

@@ -21,14 +21,18 @@
 			<div class="collapse navbar-collapse" id="collapsibleNavbar">
 				<ul class="navbar-nav">
 
+					<c:choose>
+						<c:when test="${empty sessionScope}">
+							<li class="nav-item"><a class="nav-link" href="/loginForm">로그인</a></li>
+							<li class="nav-item"><a class="nav-link" href="/joinForm">회원가입</a></li>
+						</c:when>
 
-					<li class="nav-item"><a class="nav-link" href="/loginForm">로그인</a></li>
-					<li class="nav-item"><a class="nav-link" href="/joinForm">회원가입</a></li>
-
-					<li class="nav-item"><a class="nav-link" href="/boards/writeForm">글쓰기</a></li>
-					<li class="nav-item"><a class="nav-link" href="/logout">로그아웃</a></li>
-
-
+						<c:otherwise>
+							<li class="nav-item"><a class="nav-link" href="/boards/writeForm">글쓰기</a></li>
+							<li class="nav-item"><a class="nav-link" href="/users/${principal.id}">회원정보수정</a></li>
+							<li class="nav-item"><a class="nav-link" href="/logout">로그아웃</a></li>
+						</c:otherwise>
+					</c:choose>
 				</ul>
 			</div>
 		</div>

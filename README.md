@@ -1,4 +1,10 @@
-# MyBatis DB연결 세팅
+create table boards(
+    id int primary key,
+    title varchar(150),
+    content longtext,
+    usersId int,
+    createdAt TIMESTAMP
+);# MyBatis DB연결 세팅
 
 ### 설정방법
 - MyBatisConfig 파일 필요
@@ -30,8 +36,7 @@ create table boards(
     title varchar(150),
     content longtext,
     usersId int,
-    createdAt TIMESTAMP,
-    CONSTRAINT fk_users_id FOREIGN KEY(usersId) REFERENCES users(id)
+    createdAt TIMESTAMP
 );
 ```
 
