@@ -25,7 +25,7 @@ USE greendb;
 
 create table users(
     id int primary KEY auto_increment,
-    username varchar(20),
+    username varchar(20) unique,
     password varchar(20),
     email varchar(50),
     createdAt TIMESTAMP

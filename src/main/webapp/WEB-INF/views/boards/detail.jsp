@@ -13,16 +13,12 @@
 			</form>
 		</div>
 	</c:if>
-
+	
 	<br />
 	<div>
 		<h3>${boardsContent.title}</h3>
-	</div>
-	<hr />
-
+	</div><hr />
 	<div>${boardsContent.content}</div>
-
-
 </div>
 
 <%@ include file="../layout/footer.jsp"%>

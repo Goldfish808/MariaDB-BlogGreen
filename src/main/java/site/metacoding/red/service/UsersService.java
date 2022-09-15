@@ -26,15 +26,18 @@ public class UsersService {
 	   }
 	 
 	   public Users 로그인(LoginDto loginDto) { // username, password
-	      Users usersPS = usersDao.findByUsername(loginDto.getUsername());
+	      Users usersPS = usersDao.login(loginDto);
 	      // if로 usersPS의 password와 디티오 password 비교
+	      if(usersPS == null)
+	    	  return null;
+	      
 	      if(usersPS.getPassword().equals(loginDto.getPassword())) {
 	    	  System.out.println("로그인 되었음");
 	      }
 	      return usersPS;
 	   }
 	   
-	   public void 회원수정(Integer id, SaveDto saveDto) { // id, 디티오(password, email)
+	   public Users 회원수정(Integer id, SaveDto saveDto) { // id, 디티오(password, email)
 	      // 1. 영속화
 	      Users usersPS = usersDao.findById(id);
 	      System.out.println("실행됨"+usersPS.getUsername());
@@ -44,6 +47,7 @@ public class UsersService {
 	      // 3. 디비 수행
 	      usersDao.update(usersPS);
 	      
+	      return usersPS;
 	   }
 	   
 	   @Transactional(rollbackFor = RuntimeException.class)
@@ -57,10 +61,10 @@ public class UsersService {
 	   
 	   public boolean 네임중복확인(String username) {
 	      Users usersPS = usersDao.findByUsername(username);
-	      if(usersPS != null) { //있으면,
+	      if(usersPS == null) { //있으면,
+	    	  return false;
+	      }else
 	    	  return true;
-	      }
-	      return false;
 	   }
 	   
 	   public Users 회원정보보기(Integer id) {
