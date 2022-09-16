@@ -21,26 +21,28 @@
 				<th>작성자이름</th>
 			</tr>
 		</thead>
-		
+
 		<tbody>
-		<c:forEach var="boards" items="${paging.mainDto}">
-			<tr>
-				<td>${boards.id}</td>
-				<td><a href="/boards/${boards.id}">${boards.title}</a></td>
-				<td>${boards.username}</td>
-			</tr>
+			<c:forEach var="boards" items="${paging.mainDto}">
+				<tr>
+					<td>${boards.id}</td>
+					<td><a href="/boards/${boards.id}">${boards.title}</a></td>
+					<td>${boards.username}</td>
+				</tr>
 			</c:forEach>
 		</tbody>
 	</table>
 
 	<div class="d-flex justify-content-center">
 		<ul class="pagination">
-			<li class='page-item ${paging.first ? "disabled" : ""}'><a class="page-link"
+			<li class='page-item ${paging.first ? "disabled" : ""}'>
+			<a class="page-link"
 				href="/?page=${paging.currentPage - 1}&keyword=${paging.keyword}">Previous</a></li>
 
 			<c:forEach var="pag" begin="${paging.startPageNum}" end="${paging.lastPageNum}" step="1">
 				<div>
-					<li class='page-item ${paging.currentPage == pag -1 ? "active" : ""}'><a class="page-link"
+					<li class='page-item ${paging.currentPage == pag -1 ? "active" : ""}'>
+					<a class="page-link"
 						href="/?page=${pag-1}&keyword=${paging.keyword}"> ${pag}</a></li>
 				</div>
 			</c:forEach>

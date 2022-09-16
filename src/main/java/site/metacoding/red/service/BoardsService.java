@@ -24,7 +24,7 @@ public class BoardsService {
 	public PagingDto 게시글목록보기(Integer page, String keyword) { //PagingDto 로 받아보기
 		if (page == null)
 			page = 0;
-		int startNum = page * 4;
+		int startNum = page * 5;
 		
 		List<MainDto> boardsList = boardsDao.findAll(startNum, keyword);
 		PagingDto pagingDto = boardsDao.paging(page, keyword);

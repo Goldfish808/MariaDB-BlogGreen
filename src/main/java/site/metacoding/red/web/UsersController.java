@@ -1,5 +1,8 @@
 package site.metacoding.red.web;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.jasper.tagplugins.jstl.core.Out;
@@ -48,7 +51,18 @@ public class UsersController {
 	}
 	
 	@GetMapping("/loginForm")
-	public String loginForm() { // 
+	public String loginForm(Model model, HttpServletRequest request) { 
+		// getHeader 해도 되지만 Cookie 는 여러개 값을 가지고있어서 편함
+		// 애는 리턴이 cookie 형으로 되어서 Cookie 타입으로 받으면됨
+		Cookie[] userCookie= request.getCookies();
+		for(Cookie cookie : userCookie ) {
+			//System.out.println(cookie.getValue()); // 로그인하고 콘솔 확인해보면 값이 나옴
+			//System.out.println(cookie.getName()); // Name 으로 하나의 키값만 볼 수도 있네
+			if(cookie.getName().equals("username")) {
+				model.addAttribute(cookie.getName(), cookie.getValue());
+			}
+		}
+		//
 		return "users/loginForm";
 	}
 	
@@ -59,7 +73,19 @@ public class UsersController {
 	}
 	
 	@PostMapping("/login")
-	public @ResponseBody CMRespDto<?> join(@RequestBody LoginDto loginDto) {
+	public @ResponseBody CMRespDto<?> join(@RequestBody LoginDto loginDto, HttpServletResponse response) {
+		
+		if(loginDto.isRemember()) {
+			Cookie cookie = new Cookie("username", loginDto.getUsername());
+			cookie.setMaxAge(60*60*24); // 쿠키의 유지 시간 서렂ㅇ
+			response.addCookie(cookie);
+			//respnose.setHeader("Set-Cookie", "username="+loginDto.getusername()+"; HttpOnly"); // HTTP로만 통신 가능하도록 함
+		}else {
+			Cookie cookie = new Cookie("username", null);
+			cookie.setMaxAge(0);
+			response.addCookie(cookie);
+		}
+		
 		Users principal = usersService.로그인(loginDto);
 		if(principal == null) { //잘안된거를 튕겨내기 위한 조건문
 			return new CMRespDto<>(-1, "로그인 실패", null);

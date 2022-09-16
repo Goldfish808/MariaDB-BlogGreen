@@ -10,7 +10,7 @@ import site.metacoding.red.domain.boards.BoardsDao;
 @Getter
 @Setter
 public class PagingDto {
-	
+	public static final int ROW =5; // 페이징에 필요한 상수 지정해서 사용하기.
 	private final Integer blockCount=5; // 상수 한페이지에 페이지 넘수 개수(5) 1-5, 6-10
 	private Integer currentBlock; // 변수
 	private Integer startPageNum; // 1 -> 6 -> 11

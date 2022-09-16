@@ -6,13 +6,13 @@
 
 	<select id="findAll"
 		resultType="site.metacoding.red.web.dto.boards.response.MainDto">
-		SELECT *
-		FROM boards b INNER JOIN users u ON b.usersId = u.id
+		SELECT b.id, b.title, if(u.username is null, '익명', u.username) AS username
+		FROM boards b LEFT OUTER JOIN users u ON b.usersId = u.id
 		<if test="keyword != null">
 			WHERE title like CONCAT('%',#{keyword},'%')
 		</if>
 		ORDER BY b.id DESC
-		OFFSET #{startNum} ROWS FETCH NEXT 4 ROWS ONLY
+		OFFSET #{startNum} ROWS FETCH NEXT 5 ROWS ONLY
 	</select>
 
 	<select id="paging"
@@ -24,7 +24,7 @@
 		ELSE 0 END islast
 		FROM
 		(
-		SELECT count(*) totalCount, ceil(count(*)/4)
+		SELECT count(*) totalCount, ceil(count(*)/5)
 		totalPage, #{page} currentPage, 0
 		isfirst, 0 islast
 		FROM boards
