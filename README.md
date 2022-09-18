@@ -1,10 +1,17 @@
-create table boards(
-    id int primary key,
-    title varchar(150),
-    content longtext,
-    usersId int,
+
+
+### 다중컬럼, 즉 복합 유니크키로 두 개의 유니크키의 중복을 막음
+```sql
+create table boardlikes(
+    id int primary KEY auto_increment,
+    usersId INT,
+    boardsId INT,
     createdAt TIMESTAMP
-);# MyBatis DB연결 세팅
+    
+);
+ALTER TABLE boardlikes ADD UNIQUE (usersId, boardsId);
+```
+
 
 ### 페이징 목록 개수 변경할 때
 - boards.xml 에 id=paging 부분에 ceil(count(*)/5) totalPage

@@ -32,6 +32,12 @@ public class BoardsController {
 	private final BoardsService boardsService;
 	private final HttpSession session;
 	
+	@PostMapping("/boardLikes")
+	public @ResponseBody CMRespDto<?> boardLikes(){
+		System.out.println("좋아요 REQUEST");
+		return new CMRespDto<>(1," ",null);
+	}
+	
 	
 	@GetMapping({ "/", "/boards" })
 	public String getBoardList(Model model, Integer page, String keyword) {
@@ -49,7 +55,7 @@ public class BoardsController {
 	@GetMapping("/boards/writeForm")
 	public String writeForm() {
 		Users principal = (Users) session.getAttribute("principal");
-		if (principal == null) { // userPS 가 null 이면 로그인 안된상태, 메인페이지로 감
+		if (principal == null) { // userPS Is null to go main Index page, cause Not the login
 			return "redirect:/";
 		}
 		return "boards/writeForm";

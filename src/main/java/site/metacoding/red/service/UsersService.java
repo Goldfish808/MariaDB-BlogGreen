@@ -32,7 +32,6 @@ public class UsersService {
 	    	  return null;
 	      
 	      if(usersPS.getPassword().equals(loginDto.getPassword())) {
-	    	  System.out.println("로그인 되었음");
 	      }
 	      return usersPS;
 	   }

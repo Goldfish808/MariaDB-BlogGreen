@@ -17,12 +17,9 @@ $("#btnLogin").click(() => {
 });
 
 
- 
 $("#btnDelete").click(() => {
 	resign();
 });
-
-
 
 $("#btnUpdate").click(() => {
 	update();
@@ -38,7 +35,7 @@ function join() {
 	let data = {
 		username: $("#username").val(),
 		password: $("#password").val(),
-		email: $("#email").val(),
+		email: $("#email").val()
 	};
 
 	if (data.username && data.password && data.email) {

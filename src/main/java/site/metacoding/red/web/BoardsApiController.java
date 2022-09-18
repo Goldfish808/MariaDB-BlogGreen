@@ -9,12 +9,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
+import site.metacoding.red.domain.boardlikes.BoardLikes;
 import site.metacoding.red.domain.boards.Boards;
 import site.metacoding.red.domain.users.Users;
+import site.metacoding.red.service.BoardLikesService;
 import site.metacoding.red.service.BoardsService;
+import site.metacoding.red.web.dto.boardlikes.request.LikesDto;
 import site.metacoding.red.web.dto.boards.request.SaveDto;
 import site.metacoding.red.web.dto.boards.request.WriteDto;
 import site.metacoding.red.web.dto.boards.response.PagingDto;
@@ -25,11 +29,24 @@ public class BoardsApiController {
 
    private final HttpSession session;
    private final BoardsService boardsService;
+   private final BoardLikesService boardLikesService; 
    
    /***
     * 
     *     인증과 권한 체크는 지금 하지 마세요!!
     */
+   
+   @PostMapping("/api")
+   public String insertlike(@RequestBody LikesDto id) {
+	   System.out.println(id.getBoardsId());
+	   boardLikesService.insert(id);
+	   return "좋아요 눌러짐";
+   }
+   @DeleteMapping("/api")
+   public String deletelike(@RequestBody LikesDto id) {
+	   boardLikesService.delete(id);
+	   return "딜리트 눌러짐";
+   }
    
    @PutMapping("/api/boards/{id}")
    public String update(@PathVariable Integer id, SaveDto updateDto) {
