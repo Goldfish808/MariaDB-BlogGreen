@@ -1,7 +1,9 @@
 package site.metacoding.red.web;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -43,6 +45,11 @@ public class BoardsController {
 	public String getBoardList(Model model, Integer page, String keyword) {
 		PagingDto paging =  boardsService.게시글목록보기(page, keyword);
 		model.addAttribute("paging",paging);
+		
+//		Map<String, Object> refferer = new HashMap<>();
+//		refferer.put("page", paging.getCurrentPage());
+//		refferer.put("keyword", paging.getKeyword());
+		session.setAttribute("refferer", paging);
 		return "boards/main";
 	}
 	
@@ -79,15 +86,15 @@ public class BoardsController {
 		return "boards/updateForm";
 	}
 	
-	@PutMapping("/boards/{id}/update")
-	public String update(@PathVariable Integer id ,SaveDto updateDto) {
+	@PutMapping("/boards/{id}")
+	public @ResponseBody CMRespDto<?> update(@PathVariable Integer id ,@RequestBody SaveDto updateDto) {
 		boardsService.게시글수정하기(id, updateDto);
-		return "게시글수정완료";
+		return new CMRespDto<>(1, "글 수정 성공", null);
 	}
 	
-	@DeleteMapping("/")
-	public String delete(@PathVariable Integer id) {
+	@DeleteMapping("/boards/{id}")
+	public @ResponseBody CMRespDto<?> delete(@PathVariable Integer id) {
 		boardsService.게시글삭제하기(id);
-		return "게시글삭제완료";
+		return new CMRespDto<>(1, "글삭제 성공", null);
 	}
 }
